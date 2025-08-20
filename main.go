@@ -21,6 +21,12 @@ func main() {
 	}
 
 	for _, d := range devices {
-		fmt.Println(d.Name)
+		if d.MaxInputChannels != 0 {
+			fmt.Printf("Input Device %d: %s\n", d.Index, d.Name)
+			fmt.Printf("Max Channels: %d\n", d.MaxInputChannels)
+		} else {
+			fmt.Printf("Output Device %d: %s\n", d.Index, d.Name)
+			fmt.Printf("Max Channels: %d\n", d.MaxOutputChannels)
+		}
 	}
 }
