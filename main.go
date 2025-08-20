@@ -27,12 +27,11 @@ func main() {
 	apis, err := portaudio.HostApis()
 	fmt.Println("APIs -------------------------------------")
 	for i, a := range apis {
-		fmt.Printf("API %d: %s", i, a.Name)
-		fmt.Printf("Type: %d", a.Type)
+		fmt.Printf("API %d: %s\n", i, a.Name)
+		fmt.Printf("Type: %d\n", a.Type)
 		LogIO(a.Devices)
 		fmt.Println("------------------------------------------")
 	}
-
 }
 
 func QueryIO() ([]*portaudio.DeviceInfo, error) {
