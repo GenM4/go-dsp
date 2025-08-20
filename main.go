@@ -71,6 +71,7 @@ func newStereoSine(freqL, freqR float64, p *portaudio.StreamParameters) (*stereo
 
 	var err error
 	s.Stream, err = portaudio.OpenStream(*p, s.processAudio)
+	fmt.Println("opened stream")
 	if err != nil {
 		return nil, errors.New("Could not open stream")
 	}
