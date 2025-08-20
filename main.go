@@ -20,13 +20,22 @@ func main() {
 		panic(errors.New("Error enumerating audio devices"))
 	}
 
+	fmt.Println("------------------------------------------")
 	for _, d := range devices {
-		if d.MaxInputChannels != 0 {
+		var isInput bool
+		if d.MaxInputChannels > 0 {
+			isInput = true
+		} else {
+			isInput = false
+		}
+
+		if isInput {
 			fmt.Printf("Input Device %d: %s\n", d.Index, d.Name)
 			fmt.Printf("Max Channels: %d\n", d.MaxInputChannels)
 		} else {
 			fmt.Printf("Output Device %d: %s\n", d.Index, d.Name)
 			fmt.Printf("Max Channels: %d\n", d.MaxOutputChannels)
 		}
+		fmt.Println("------------------------------------------")
 	}
 }
