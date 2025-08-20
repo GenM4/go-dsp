@@ -29,7 +29,7 @@ func main() {
 	for _, a := range apis {
 		fmt.Println(a.Name)
 		fmt.Println(a.Type)
-		fmt.Println(a.Devices)
+		LogIO(a.Devices)
 		fmt.Println("------------------------------------------")
 	}
 
