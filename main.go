@@ -25,10 +25,10 @@ func main() {
 
 func LogAPIs(apis []*portaudio.HostApiInfo) {
 	fmt.Println("APIs -------------------------------------")
-	fmt.Println()
 	for i, a := range apis {
 		fmt.Printf("API %d: %s\n", i, a.Name)
 		fmt.Printf("Type: %s\n", a.Type)
+		fmt.Println()
 		LogIO(a.Devices)
 	}
 	fmt.Println()
@@ -45,7 +45,7 @@ func QueryIO() ([]*portaudio.DeviceInfo, error) {
 }
 
 func LogIO(devices []*portaudio.DeviceInfo) {
-	fmt.Println("Devices ----------------------------------")
+	fmt.Println("---------------------------------- Devices")
 	for _, d := range devices {
 		var isInput bool
 		if d.MaxInputChannels > 0 {
