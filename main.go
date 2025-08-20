@@ -45,7 +45,7 @@ func QueryIO() ([]*portaudio.DeviceInfo, error) {
 }
 
 func LogIO(devices []*portaudio.DeviceInfo) {
-	fmt.Println("---------------------------------- Devices")
+	fmt.Println("Devices ----------------------------------")
 	for _, d := range devices {
 		var isInput bool
 		if d.MaxInputChannels > 0 {
