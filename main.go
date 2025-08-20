@@ -30,7 +30,7 @@ func main() {
 		panic(err)
 	}
 
-	p := buildStreamParams(nil, devices[1], 2)
+	p := buildStreamParams(nil, devices[2], 2)
 
 	sine, err := newStereoSine(1000, 1000, p)
 	if err != nil {
