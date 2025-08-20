@@ -3,6 +3,8 @@ package main
 import (
 	"errors"
 	"fmt"
+	"math"
+	"time"
 
 	"github.com/gordonklaus/portaudio"
 )
@@ -21,6 +23,95 @@ func main() {
 
 	LogAPIs(apis)
 
+	devices, err := QueryIO()
+	if err != nil {
+		panic(err)
+	}
+
+	p := buildStreamParams(nil, devices[1])
+
+	sine, err := newStereoSine(256, 320, p)
+	if err != nil {
+		panic(err)
+	}
+	defer sine.Close()
+
+	err = sine.Start()
+	if err != nil {
+		panic(err)
+	}
+
+	time.Sleep(30 * time.Second)
+
+	err = sine.Stop()
+	if err != nil {
+		panic(err)
+	}
+}
+
+type stereoSine struct {
+	*portaudio.Stream
+	stepL, phaseL float64
+	stepR, phaseR float64
+}
+
+func (g *stereoSine) processAudio(out [][]float32) {
+	for i := range out[0] {
+		out[0][i] = float32(math.Sin(2 * math.Pi * g.phaseL))
+		_, g.phaseL = math.Modf(g.phaseL + g.stepL)
+		out[1][i] = float32(math.Sin(2 * math.Pi * g.phaseR))
+		_, g.phaseR = math.Modf(g.phaseR + g.stepR)
+	}
+}
+
+func newStereoSine(freqL, freqR float64, p *portaudio.StreamParameters) (*stereoSine, error) {
+	s := &stereoSine{nil, freqL / p.SampleRate, 0, freqR / p.SampleRate, 0}
+
+	var err error
+	s.Stream, err = portaudio.OpenStream(*p, s.processAudio)
+	if err != nil {
+		return nil, errors.New("Could not open stream")
+	}
+
+	return s, nil
+}
+
+func buildStreamParams(in, out *portaudio.DeviceInfo) *portaudio.StreamParameters {
+	var sp *portaudio.StreamParameters
+	var sr float64
+	if in != nil {
+		sr = in.DefaultSampleRate
+	} else {
+		sr = out.DefaultSampleRate
+	}
+
+	sp = &portaudio.StreamParameters{
+		Input:      *buildStreamDeviceParams(in, in.MaxInputChannels),
+		Output:     *buildStreamDeviceParams(out, out.MaxInputChannels),
+		SampleRate: sr,
+		Flags:      portaudio.NoFlag,
+	}
+
+	return sp
+}
+
+func buildStreamDeviceParams(device *portaudio.DeviceInfo, channels int) *portaudio.StreamDeviceParameters {
+	var sdp *portaudio.StreamDeviceParameters
+	if device.MaxInputChannels > 0 {
+		sdp = &portaudio.StreamDeviceParameters{
+			Device:   device,
+			Channels: channels,
+			Latency:  device.DefaultHighInputLatency,
+		}
+	} else {
+		sdp = &portaudio.StreamDeviceParameters{
+			Device:   device,
+			Channels: channels,
+			Latency:  device.DefaultHighOutputLatency,
+		}
+	}
+
+	return sdp
 }
 
 func LogAPIs(apis []*portaudio.HostApiInfo) {
