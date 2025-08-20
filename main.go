@@ -104,9 +104,9 @@ func buildStreamDeviceParams(device *portaudio.DeviceInfo, channels int) *portau
 
 	var lat time.Duration
 	if device != nil && device.MaxInputChannels > 0 {
-		lat = device.DefaultHighInputLatency
+		lat = device.DefaultLowInputLatency
 	} else if device != nil && device.MaxInputChannels == 0 {
-		lat = device.DefaultHighOutputLatency
+		lat = device.DefaultLowOutputLatency
 	} else {
 		lat = 0
 	}
