@@ -28,7 +28,7 @@ func main() {
 		panic(err)
 	}
 
-	p := buildStreamParams(nil, devices[1])
+	p := buildStreamParams(nil, devices[1], 2)
 
 	sine, err := newStereoSine(256, 320, p)
 	if err != nil {
@@ -76,7 +76,7 @@ func newStereoSine(freqL, freqR float64, p *portaudio.StreamParameters) (*stereo
 	return s, nil
 }
 
-func buildStreamParams(in, out *portaudio.DeviceInfo) *portaudio.StreamParameters {
+func buildStreamParams(in, out *portaudio.DeviceInfo, channels int) *portaudio.StreamParameters {
 	var sp *portaudio.StreamParameters
 	var sr float64
 	if in != nil {
@@ -86,8 +86,8 @@ func buildStreamParams(in, out *portaudio.DeviceInfo) *portaudio.StreamParameter
 	}
 
 	sp = &portaudio.StreamParameters{
-		Input:      *buildStreamDeviceParams(in, in.MaxInputChannels),
-		Output:     *buildStreamDeviceParams(out, out.MaxInputChannels),
+		Input:      *buildStreamDeviceParams(in, channels),
+		Output:     *buildStreamDeviceParams(out, channels),
 		SampleRate: sr,
 		Flags:      portaudio.NoFlag,
 	}
