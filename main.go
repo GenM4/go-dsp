@@ -41,7 +41,7 @@ func main() {
 		panic(err)
 	}
 
-	time.Sleep(30 * time.Second)
+	time.Sleep(2 * time.Second)
 
 	err = sine.Stop()
 	if err != nil {
