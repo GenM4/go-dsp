@@ -12,14 +12,39 @@ func main() {
 	if portaudio.Initialize() != nil {
 		panic(errors.New("Portaudio couldn't initialize"))
 	}
-
 	defer portaudio.Terminate()
+
+	devices, err := QueryIO()
+	if err != nil {
+		panic(err)
+	}
+
+	LogIO(devices)
+
+	fmt.Println()
+	fmt.Println()
+
+	apis, err := portaudio.HostApis()
+	fmt.Println("------------------------------------------")
+	for _, a := range apis {
+		fmt.Println(a.Name)
+		fmt.Println(a.Type)
+		fmt.Println("------------------------------------------")
+	}
+
+}
+
+func QueryIO() ([]*portaudio.DeviceInfo, error) {
 	devices, err := portaudio.Devices()
 
 	if err != nil {
-		panic(errors.New("Error enumerating audio devices"))
+		return []*portaudio.DeviceInfo{}, errors.New("Error enumerating audio devices")
 	}
 
+	return devices, nil
+}
+
+func LogIO(devices []*portaudio.DeviceInfo) {
 	fmt.Println("------------------------------------------")
 	for _, d := range devices {
 		var isInput bool
@@ -38,4 +63,5 @@ func main() {
 		}
 		fmt.Println("------------------------------------------")
 	}
+
 }
