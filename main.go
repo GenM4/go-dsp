@@ -14,21 +14,20 @@ func main() {
 	}
 	defer portaudio.Terminate()
 
-	devices, err := QueryIO()
+	apis, err := portaudio.HostApis()
 	if err != nil {
-		panic(err)
+		panic(errors.New("Could not query host APIs"))
 	}
 
-	LogIO(devices)
+	LogAPIs(apis)
 
-	fmt.Println()
-	fmt.Println()
+}
 
-	apis, err := portaudio.HostApis()
+func LogAPIs(apis []*portaudio.HostApiInfo) {
 	fmt.Println("APIs -------------------------------------")
 	for i, a := range apis {
 		fmt.Printf("API %d: %s\n", i, a.Name)
-		fmt.Printf("Type: %d\n", a.Type)
+		fmt.Printf("Type: %s\n", a.Type)
 		LogIO(a.Devices)
 		fmt.Println("------------------------------------------")
 	}
