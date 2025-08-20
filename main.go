@@ -37,6 +37,7 @@ func main() {
 	defer sine.Close()
 
 	err = sine.Start()
+	fmt.Println("sine started")
 	if err != nil {
 		panic(err)
 	}
@@ -44,6 +45,7 @@ func main() {
 	time.Sleep(2 * time.Second)
 
 	err = sine.Stop()
+	fmt.Println("sine stopped")
 	if err != nil {
 		panic(err)
 	}
