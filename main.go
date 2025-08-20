@@ -61,6 +61,7 @@ func LogIO(devices []*portaudio.DeviceInfo) {
 			fmt.Printf("Output Device %d: %s\n", d.Index, d.Name)
 			fmt.Printf("Max Channels: %d\n", d.MaxOutputChannels)
 		}
+		fmt.Printf("Sample Rate: %0.2f\n", d.DefaultSampleRate)
 		fmt.Println("------------------------------------------")
 	}
 
