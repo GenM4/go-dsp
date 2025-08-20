@@ -9,6 +9,8 @@ import (
 	"github.com/gordonklaus/portaudio"
 )
 
+const sampleRate = 48000
+
 func main() {
 
 	if portaudio.Initialize() != nil {
@@ -67,12 +69,10 @@ func (g *stereoSine) processAudio(out [][]float32) {
 }
 
 func newStereoSine(freqL, freqR float64, p *portaudio.StreamParameters) (*stereoSine, error) {
-	s := &stereoSine{nil, freqL / p.SampleRate, 0, freqR / p.SampleRate, 0}
+	s := &stereoSine{nil, freqL / sampleRate, 0, freqR / sampleRate, 0}
 
 	var err error
 	s.Stream, err = portaudio.OpenStream(*p, s.processAudio)
-	fmt.Println(p.Output.Device.Name)
-	fmt.Println("opened stream")
 	if err != nil {
 		return nil, errors.New("Could not open stream")
 	}
