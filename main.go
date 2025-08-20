@@ -30,7 +30,6 @@ func LogAPIs(apis []*portaudio.HostApiInfo) {
 		fmt.Printf("API %d: %s\n", i, a.Name)
 		fmt.Printf("Type: %s\n", a.Type)
 		LogIO(a.Devices)
-		fmt.Println("------------------------------------------")
 	}
 	fmt.Println()
 }
