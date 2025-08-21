@@ -1,4 +1,4 @@
-module github.com/GenM4/go-dsp/settings
+module github.com/GenM4/go-dsp
 
 go 1.23.3
 

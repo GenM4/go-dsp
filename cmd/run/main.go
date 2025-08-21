@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"math"
 	"time"
 
 	"github.com/GenM4/go-dsp/internal/gen"
