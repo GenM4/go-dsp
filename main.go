@@ -28,11 +28,10 @@ func main() {
 		panic(err)
 	}
 
-	//p := buildStreamParams(nil, devices[2], 2)
-	p := portaudio.LowLatencyParameters(nil, devices[2])
-	p.Flags = portaudio.ClipOff
+	p := buildStreamParams(nil, devices[2], 2)
+	//p.Flags = portaudio.ClipOff
 
-	sine, err := newStereoSine(256, 320, &p)
+	sine, err := newStereoSine(256, 320, p)
 	if err != nil {
 		panic(err)
 	}
@@ -96,10 +95,11 @@ func buildStreamParams(in, out *portaudio.DeviceInfo, channels int) *portaudio.S
 	}
 
 	sp = &portaudio.StreamParameters{
-		Input:      *buildStreamDeviceParams(in, channels),
-		Output:     *buildStreamDeviceParams(out, channels),
-		SampleRate: sr,
-		Flags:      portaudio.NoFlag,
+		Input:           *buildStreamDeviceParams(in, channels),
+		Output:          *buildStreamDeviceParams(out, channels),
+		SampleRate:      sr,
+		FramesPerBuffer: 512,
+		Flags:           portaudio.NoFlag,
 	}
 
 	return sp
