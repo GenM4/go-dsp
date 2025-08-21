@@ -12,3 +12,12 @@ dockerup:
 
 dockerdown:
 	docker stop go-dsp
+
+gu:
+	git add *
+	git commit -m "autocommit"
+	git push
+
+gd:
+	git pull
+	make exec
