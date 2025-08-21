@@ -14,7 +14,7 @@ dockerdown:
 	docker stop go-dsp
 
 gu:
-	git add *
+	git add .
 	git commit -m "autocommit"
 	git push
 
