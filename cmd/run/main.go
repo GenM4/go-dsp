@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gordonklaus/portaudio"
+	"internal/gen"
 )
 
 func main() {
@@ -29,7 +30,6 @@ func main() {
 	}
 
 	p := buildStreamParams(nil, devices[2], 2)
-	//p.Flags = portaudio.ClipOff
 
 	sine, err := newStereoSine(1000, 1000, p)
 	if err != nil {
@@ -43,46 +43,13 @@ func main() {
 		panic(err)
 	}
 
-	time.Sleep(2 * time.Second)
-	fmt.Println(sine.Stream.CpuLoad())
-	time.Sleep(2 * time.Second)
-	fmt.Println(sine.Stream.CpuLoad())
-	time.Sleep(2 * time.Second)
-	fmt.Println(sine.Stream.CpuLoad())
-	time.Sleep(2 * time.Second)
+	time.Sleep(5 * time.Second)
 
 	err = sine.Stop()
 	fmt.Println("sine stopped")
 	if err != nil {
 		panic(err)
 	}
-}
-
-type stereoSine struct {
-	*portaudio.Stream
-	stepL, phaseL float64
-	stepR, phaseR float64
-}
-
-func (g *stereoSine) processAudio(out [][]float32) {
-	for i := range out[0] {
-		out[0][i] = float32(math.Sin(2 * math.Pi * g.phaseL))
-		_, g.phaseL = math.Modf(g.phaseL + g.stepL)
-		out[1][i] = float32(math.Sin(2 * math.Pi * g.phaseR))
-		_, g.phaseR = math.Modf(g.phaseR + g.stepR)
-	}
-}
-
-func newStereoSine(freqL, freqR float64, p *portaudio.StreamParameters) (*stereoSine, error) {
-	s := &stereoSine{nil, freqL / p.SampleRate, 0, freqR / p.SampleRate, 0}
-
-	var err error
-	s.Stream, err = portaudio.OpenStream(*p, s.processAudio)
-	if err != nil {
-		return nil, errors.New("Could not open stream")
-	}
-
-	return s, nil
 }
 
 func buildStreamParams(in, out *portaudio.DeviceInfo, channels int) *portaudio.StreamParameters {
