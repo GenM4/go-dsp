@@ -28,9 +28,10 @@ func main() {
 		panic(err)
 	}
 
-	p := buildStreamParams(nil, devices[2], 2)
+	//p := buildStreamParams(nil, devices[2], 2)
+	p := portaudio.HighLatencyParameters(nil, devices[2])
 
-	sine, err := newStereoSine(1000, 1000, p)
+	sine, err := newStereoSine(1000, 1000, &p)
 	if err != nil {
 		panic(err)
 	}
