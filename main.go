@@ -41,9 +41,14 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(sine.Stream.CpuLoad())
 
-	time.Sleep(30 * time.Second)
+	time.Sleep(2 * time.Second)
+	fmt.Println(sine.Stream.CpuLoad())
+	time.Sleep(2 * time.Second)
+	fmt.Println(sine.Stream.CpuLoad())
+	time.Sleep(2 * time.Second)
+	fmt.Println(sine.Stream.CpuLoad())
+	time.Sleep(2 * time.Second)
 
 	err = sine.Stop()
 	fmt.Println("sine stopped")
