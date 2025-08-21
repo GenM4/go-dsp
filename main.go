@@ -31,7 +31,7 @@ func main() {
 	p := buildStreamParams(nil, devices[2], 2)
 	//p.Flags = portaudio.ClipOff
 
-	sine, err := newStereoSine(256, 320, p)
+	sine, err := newStereoSine(1000, 1000, p)
 	if err != nil {
 		panic(err)
 	}
