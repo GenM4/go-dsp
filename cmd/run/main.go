@@ -6,8 +6,8 @@ import (
 	"math"
 	"time"
 
+	"github.com/GenM4/go-dsp/internal/gen"
 	"github.com/gordonklaus/portaudio"
-	"internal/gen"
 )
 
 func main() {
@@ -31,7 +31,7 @@ func main() {
 
 	p := buildStreamParams(nil, devices[2], 2)
 
-	sine, err := newStereoSine(1000, 1000, p)
+	sine, err := gen.NewStereoSine(1000, 1000, p)
 	if err != nil {
 		panic(err)
 	}

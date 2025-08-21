@@ -1,5 +1,5 @@
 exec:
-	go build -o go-dsp && ./go-dsp
+	go build -C ./cmd/run/ -o go-dsp && ./go-dsp
 
 dockerc:
 	docker build -t go-dsp-image .
