@@ -30,6 +30,7 @@ func main() {
 
 	//p := buildStreamParams(nil, devices[2], 2)
 	p := portaudio.LowLatencyParameters(nil, devices[2])
+	p.Flags = portaudio.ClipOff
 
 	sine, err := newStereoSine(1000, 1000, &p)
 	if err != nil {
