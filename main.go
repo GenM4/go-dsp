@@ -41,6 +41,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println(sine.Stream.CpuLoad())
 
 	time.Sleep(30 * time.Second)
 
@@ -64,7 +65,6 @@ func (g *stereoSine) processAudio(out [][]float32) {
 		out[1][i] = float32(math.Sin(2 * math.Pi * g.phaseR))
 		_, g.phaseR = math.Modf(g.phaseR + g.stepR)
 	}
-	fmt.Println(g.Stream.CpuLoad())
 }
 
 func newStereoSine(freqL, freqR float64, p *portaudio.StreamParameters) (*stereoSine, error) {
